@@ -1,0 +1,12 @@
+{
+  "background_color": "#00bdff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "SHOOTER.ICH_DER",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "ich-der245.github",
+  "start_url": "/",
+  "theme_color": "#a2ecff",
+  "description": "A shooter"
+}
