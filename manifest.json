@@ -1,12 +1,12 @@
 {
-  "background_color": "#00bdff",
-  "dir": "ltr",
+  "name": "Mini-Brawl",
+  "short_name": "MiniBrawl",
+  "description": "2D Top-Down Shooter featuring Shelly vs Shelly brawl gameplay",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "name": "SHOOTER.ICH_DER",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "ich-der245.github",
-  "start_url": "/",
-  "theme_color": "#a2ecff",
-  "description": "A shooter"
+  "orientation": "landscape",
+  "background_color": "#0b1020",
+  "theme_color": "#7aa2ff",
+  "dir": "ltr"
 }

@@ -1,11 +1,7 @@
-// This is the service worker with the combined offline experience (Offline page + Offline copy of pages)
+// Service Worker for Mini-Brawl PWA
 
-const CACHE = "pwabuilder-offline-page";
-
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-
-// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "ToDo-replace-this-name.html";
+const CACHE = "mini-brawl-cache-v1";
+const offlineFallbackPage = "index.html";
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -13,42 +9,45 @@ self.addEventListener("message", (event) => {
   }
 });
 
-self.addEventListener('install', async (event) => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
+      .then((cache) => cache.addAll([
+        './',
+        './index.html',
+        './manifest.json',
+        './player.png',
+        './enemy.png',
+        './obstacle.png'
+      ]))
+      .then(() => self.skipWaiting())
   );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
-workbox.routing.registerRoute(
-  new RegExp('/*'),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: CACHE
-  })
-);
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
 
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
-
-        if (preloadResp) {
-          return preloadResp;
-        }
-
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
+    event.respondWith(
+      fetch(event.request).catch(async () => {
         const cache = await caches.open(CACHE);
         const cachedResp = await cache.match(offlineFallbackPage);
         return cachedResp;
-      }
-    })());
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
   }
 });
