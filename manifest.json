@@ -1,7 +1,7 @@
 {
-  "name": "Mini-Brawl",
+  "name": "Mini-Brawl Stars",
   "short_name": "MiniBrawl",
-  "description": "2D Top-Down Shooter featuring Shelly vs Shelly brawl gameplay",
+  "description": "Veröffentlichbares Action-Spiel mit Brawler-Auswahl, Juwelenjagd & Showdown!",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

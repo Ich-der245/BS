@@ -1,6 +1,6 @@
 // Service Worker for Mini-Brawl PWA
 
-const CACHE = "mini-brawl-cache-v1";
+const CACHE = "mini-brawl-cache-v2";
 const offlineFallbackPage = "index.html";
 
 self.addEventListener("message", (event) => {
